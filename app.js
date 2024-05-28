@@ -33,18 +33,6 @@ app.get("/", (req, res) => {
   res.send("Hi Darling...!");
 });
 
-//GET Todos
-app.get("/todos/", async (req, res) => {
-  const getTodosQuery = `
-    SELECT
-        *
-    FROM
-        todo;
-    `;
-  data = await db.all(getTodosQuery);
-  res.send(data);
-});
-
 const hasPriorityAndStatusProperties = (requestQuery) => {
   return (
     requestQuery.priority !== undefined && requestQuery.status !== undefined
@@ -58,6 +46,8 @@ const hasPriorityProperty = (requestQuery) => {
 const hasStatusProperty = (requestQuery) => {
   return requestQuery.status !== undefined;
 };
+
+//GET TODOS API 1
 app.get("/todos/", async (request, response) => {
   let data = null;
   let getTodosQuery = "";
@@ -163,11 +153,11 @@ app.put("/todos/:todoId/", async (request, response) => {
       getTodosQuery = `
       UPDATE 
         todo 
-    SET 
+      SET 
         todo = '${dic.todo}' 
-    WHERE 
+      WHERE 
         id = '${todoId}';
-    `;
+      `;
       await db.run(getTodosQuery);
       response.send("Todo Updated");
       break;
@@ -176,11 +166,11 @@ app.put("/todos/:todoId/", async (request, response) => {
       getTodosQuery = `
       UPDATE 
         todo 
-    SET 
+      SET 
         priority = '${dic.priority}' 
-    WHERE 
+      WHERE 
         id = '${todoId}';
-    `;
+      `;
       await db.run(getTodosQuery);
       response.send("Priority Updated");
       break;
@@ -189,11 +179,11 @@ app.put("/todos/:todoId/", async (request, response) => {
       getTodosQuery = `
       UPDATE 
         todo 
-    SET 
+      SET 
         status = '${dic.status}' 
-    WHERE 
+      WHERE 
         id = '${todoId}';
-    `;
+      `;
       await db.run(getTodosQuery);
       response.send("Status Updated");
       break;
